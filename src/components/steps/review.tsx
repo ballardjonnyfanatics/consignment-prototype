@@ -49,7 +49,7 @@ export function ReviewStep() {
     <div className="flex flex-col gap-3">
       <h3 className="text-lg font-bold leading-6">Review your submission</h3>
 
-      <div className="flex flex-col gap-1 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
+      <div className="flex flex-col gap-0.5 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-3">
         <SummaryRow label="Submission type" value={submissionType} />
         <SummaryRow label="Number of items" value={String(state.itemCount)} />
         <SummaryRow
@@ -59,7 +59,7 @@ export function ReviewStep() {
       </div>
 
       {isRaw && grader && (
-        <div className="flex flex-col gap-1 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
+        <div className="flex flex-col gap-0.5 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-3">
           <SummaryRow label="Grading company" value={grader.name} />
           {tier && <SummaryRow label="Service tier" value={tier.name} />}
           {estimatedGradingCost > 0 && (
@@ -77,13 +77,13 @@ export function ReviewStep() {
       )}
 
       {hasListing && listingRoute && (
-        <div className="flex flex-col gap-1 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
+        <div className="flex flex-col gap-0.5 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-3">
           <SummaryRow label="Selling via" value={listingRoute} />
         </div>
       )}
 
       {state.psaCards.length > 0 && (
-        <div className="flex flex-col gap-2 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
+        <div className="flex flex-col gap-0.5 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-3">
           <span className="text-xs font-semibold text-[var(--ds1-main-text-secondary)]">Cards</span>
           {state.psaCards.map((card) => (
             <div key={card.id} className="flex items-baseline justify-between">
@@ -98,12 +98,12 @@ export function ReviewStep() {
         </div>
       )}
 
-      <div className="flex gap-2 rounded-xl bg-[var(--ds1-main-bg-fill-info-subtle)] p-4">
-        <Info className="mt-0.5 h-4 w-4 shrink-0 text-[var(--ds1-main-text-info)]" />
+      <div className="flex gap-2 rounded-xl bg-[var(--ds1-main-bg-fill-info-subtle)] p-3">
+        <Info className="mt-0.5 h-4 w-4 shrink-0 text-[var(--ds1-main-icon-primary)]" />
         <div className="flex flex-col gap-0.5">
-          <span className="text-sm font-bold">Processing fees may apply</span>
+          <span className="text-sm font-bold">Vault fees may apply</span>
           <span className="text-xs text-[var(--ds1-main-text-secondary)]">
-            Please note items valued under $50 may incur a one-time processing
+            Items valued under $50 may incur a one-time processing
             fee of $3 if they are not sold within 30 days.
           </span>
         </div>

@@ -43,8 +43,8 @@ export function FloatingInput({
         value={value === 0 ? "" : value}
         onChange={onChange}
         className={cn(
-          "peer w-full rounded-[var(--ds1-radius-input)] border border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)] px-3 pt-5 pb-2 text-base leading-6 text-[var(--ds1-main-text-primary)] outline-none transition-colors focus:border-[var(--ds1-main-border-primary-active)]",
-          prefix && hasValue && "pl-7"
+          "peer w-full rounded-[var(--ds1-radius-input)] border border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)] px-3 pt-5 pb-2 text-base leading-6 text-[var(--ds1-main-text-primary)] outline-none transition-colors focus:border-2 focus:border-[var(--ds1-main-border-primary-active)] focus:px-[11px] focus:pt-[19px] focus:pb-[7px]",
+          prefix && hasValue && "pl-7 focus:pl-[27px]"
         )}
       />
       <label

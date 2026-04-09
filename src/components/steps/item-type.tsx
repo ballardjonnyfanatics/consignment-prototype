@@ -30,13 +30,13 @@ function RadioCard({
     <button
       onClick={onSelect}
       className={cn(
-        "flex w-full items-center gap-2.5 rounded-lg text-left transition-colors",
+        "flex w-full items-start gap-2.5 rounded-lg text-left transition-colors",
         selected
           ? "border-2 px-[11px] py-[11px] border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-layer-1)]"
           : "border px-3 py-3 border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)] hover:border-[var(--ds1-main-border-primary-hover)]"
       )}
     >
-      <div className="flex items-center">
+      <div className="flex items-center pt-1">
         <div
           className={cn(
             "h-4 w-4 shrink-0 rounded-full border transition-colors",
@@ -52,7 +52,7 @@ function RadioCard({
           )}
         </div>
       </div>
-      <div className="flex flex-1 flex-col gap-0.5">
+      <div className="flex flex-1 flex-col">
         <span className="text-base font-bold leading-6">{label}</span>
         {description && (
           <span className="text-xs leading-4 text-[var(--ds1-main-text-secondary)]">
@@ -64,7 +64,7 @@ function RadioCard({
         <img
           src={image}
           alt=""
-          className="h-12 w-12 shrink-0 object-contain"
+          className="h-10 w-10 shrink-0 object-contain"
         />
       )}
     </button>
