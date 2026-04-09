@@ -18,31 +18,29 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
 export function ReviewStep() {
   const { state } = useWizard();
 
+  const isRaw = state.cardCondition === "raw";
   const grader = GRADERS.find((g) => g.id === state.selectedGrader);
   const tier = grader?.tiers.find((t) => t.id === state.selectedTier);
 
-  const submissionType =
-    state.cardCondition === "raw" ? "Authenticate & Vault" : "Submit to Vault";
+  const hasListing =
+    state.listingIntent === "weekly-auction" ||
+    state.listingIntent === "premier-auction";
 
-  const listingLabel =
+  const listingRoute =
     state.listingIntent === "weekly-auction"
       ? "Weekly Auction"
       : state.listingIntent === "premier-auction"
         ? "Premier Auction"
-        : state.listingIntent === "vault"
-          ? "Store in Vault"
-          : null;
+        : null;
 
-  const estimatedFee = state.itemCount * (tier ? parseFloat(tier.price.replace(/[^0-9.]/g, "")) : 0);
+  const tierPrice = tier ? parseFloat(tier.price.replace(/[^0-9.]/g, "")) : 0;
+  const estimatedGradingCost = state.itemCount * tierPrice;
 
   return (
     <div className="flex flex-col gap-3">
       <h3 className="text-lg font-bold leading-6">Review your submission</h3>
 
       <div className="flex flex-col gap-1 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
-        <SummaryRow label="Submission type" value={submissionType} />
-        {grader && <SummaryRow label="Grading company" value={grader.name} />}
-        {tier && <SummaryRow label="Service tier" value={tier.name} />}
         <SummaryRow label="Number of items" value={String(state.itemCount)} />
         <SummaryRow
           label="Estimated total value"
@@ -50,9 +48,30 @@ export function ReviewStep() {
         />
       </div>
 
+      {isRaw && grader && (
+        <div className="flex flex-col gap-1 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
+          <span className="text-xs font-semibold text-[var(--ds1-main-text-secondary)] pb-1">Authentication</span>
+          <SummaryRow label="Grading company" value={grader.name} />
+          {tier && <SummaryRow label="Service tier" value={tier.name} />}
+          {estimatedGradingCost > 0 && (
+            <SummaryRow
+              label="Estimated grading cost"
+              value={`$${estimatedGradingCost.toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
+            />
+          )}
+        </div>
+      )}
+
+      {hasListing && listingRoute && (
+        <div className="flex flex-col gap-1 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
+          <span className="text-xs font-semibold text-[var(--ds1-main-text-secondary)] pb-1">Marketplace</span>
+          <SummaryRow label="Listing route" value={listingRoute} />
+        </div>
+      )}
+
       {state.psaCards.length > 0 && (
         <div className="flex flex-col gap-2 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
-          <span className="text-sm font-bold">Cards</span>
+          <span className="text-xs font-semibold text-[var(--ds1-main-text-secondary)]">Cards</span>
           {state.psaCards.map((card) => (
             <div key={card.id} className="flex items-baseline justify-between">
               <span className="flex-1 truncate text-sm text-[var(--ds1-main-text-secondary)]">
@@ -63,29 +82,6 @@ export function ReviewStep() {
               </span>
             </div>
           ))}
-        </div>
-      )}
-
-      {estimatedFee > 0 && (
-        <div className="flex items-baseline justify-between rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
-          <div className="flex flex-col">
-            <span className="text-sm font-bold">Estimated grading fee</span>
-            <span className="text-xs text-[var(--ds1-main-text-secondary)]">
-              Payable once your submission is complete.
-            </span>
-          </div>
-          <span className="text-sm font-bold">
-            ${estimatedFee.toFixed(2)}
-          </span>
-        </div>
-      )}
-
-      {listingLabel && (
-        <div className="flex items-baseline justify-between rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
-          <span className="text-sm text-[var(--ds1-main-text-secondary)]">
-            After authentication
-          </span>
-          <span className="text-sm font-bold">{listingLabel}</span>
         </div>
       )}
 

@@ -21,16 +21,16 @@ function RadioCard({
     <button
       onClick={onSelect}
       className={cn(
-        "flex w-full items-start gap-2.5 rounded-lg border-1 px-3 py-3 text-left transition-colors",
+        "flex w-full items-start gap-2.5 rounded-lg text-left transition-colors",
         selected
-          ? "border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-layer-1)]"
-          : "border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)] hover:border-[var(--ds1-main-border-primary-hover)]"
+          ? "border-2 px-[11px] py-[11px] border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-layer-1)]"
+          : "border px-3 py-3 border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)] hover:border-[var(--ds1-main-border-primary-hover)]"
       )}
     >
       <div className="flex items-center pt-0.5">
         <div
           className={cn(
-            "h-5 w-5 shrink-0 rounded-full border-2 transition-colors",
+            "h-4 w-4 shrink-0 rounded-full border transition-colors",
             selected
               ? "border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-fill)]"
               : "border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)]"
@@ -38,7 +38,7 @@ function RadioCard({
         >
           {selected && (
             <div className="flex h-full w-full items-center justify-center">
-              <div className="h-2 w-2 rounded-full bg-[var(--ds1-main-bg-fill-inverse)]" />
+              <div className="h-1.5 w-1.5 rounded-full bg-[var(--ds1-main-bg-fill-inverse)]" />
             </div>
           )}
         </div>

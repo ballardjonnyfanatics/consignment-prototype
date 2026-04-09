@@ -1,10 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useWizard } from "@/components/wizard/wizard-context";
-import { GRADERS } from "@/lib/submission-types";
+import { GRADERS, type ServiceTier } from "@/lib/submission-types";
+
+const GRADER_LOGOS: Record<string, string> = {
+  beckett: "/logos/beckett.svg",
+  cgc: "/logos/cgc.png",
+  psa: "/logos/psa.svg",
+  sgc: "/logos/sgc.svg",
+};
 
 function RadioCard({
   selected,
@@ -21,16 +28,16 @@ function RadioCard({
     <button
       onClick={onSelect}
       className={cn(
-        "flex w-full items-start gap-2.5 rounded-lg border-1 px-3 py-3 text-left transition-colors",
+        "flex w-full min-h-14 items-center gap-2.5 rounded-lg text-left transition-colors",
         selected
-          ? "border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-layer-1)]"
-          : "border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)] hover:border-[var(--ds1-main-border-primary-hover)]"
+          ? "border-2 px-[11px] py-[11px] border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-layer-1)]"
+          : "border px-3 py-3 border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)] hover:border-[var(--ds1-main-border-primary-hover)]"
       )}
     >
-      <div className="flex items-center pt-0.5">
+      <div className="flex items-center">
         <div
           className={cn(
-            "h-5 w-5 shrink-0 rounded-full border-2 transition-colors",
+            "h-4 w-4 shrink-0 rounded-full border transition-colors",
             selected
               ? "border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-fill)]"
               : "border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)]"
@@ -38,7 +45,7 @@ function RadioCard({
         >
           {selected && (
             <div className="flex h-full w-full items-center justify-center">
-              <div className="h-2 w-2 rounded-full bg-[var(--ds1-main-bg-fill-inverse)]" />
+              <div className="h-1.5 w-1.5 rounded-full bg-[var(--ds1-main-bg-fill-inverse)]" />
             </div>
           )}
         </div>
@@ -55,6 +62,139 @@ function RadioCard({
   );
 }
 
+function TierTable({
+  tiers,
+  selectedTier,
+  onSelect,
+}: {
+  tiers: ServiceTier[];
+  selectedTier: string | null;
+  onSelect: (id: string) => void;
+}) {
+  let lastGroup: string | undefined;
+
+  return (
+    <div className="flex flex-col">
+      {tiers.map((tier) => {
+        const showGroupHeader = tier.group && tier.group !== lastGroup;
+        lastGroup = tier.group;
+        const tierSelected = selectedTier === tier.id;
+
+        return (
+          <React.Fragment key={tier.id}>
+            {showGroupHeader && (
+              <div className="px-3 pt-2 pb-2">
+                <span className="text-xs font-semibold text-[var(--ds1-main-text-secondary)]">
+                  {tier.group}
+                </span>
+              </div>
+            )}
+            <button
+              onClick={() => onSelect(tier.id)}
+              className={cn(
+                "flex w-full items-start gap-3 px-3 py-2 text-left transition-colors rounded-md",
+                tierSelected
+                  ? "bg-[var(--ds1-main-bg-layer-2)]"
+                  : "hover:bg-[var(--ds1-main-bg-layer-2)]"
+              )}
+            >
+              <div
+                className={cn(
+                  "mt-0.5 h-4 w-4 shrink-0 rounded-full border transition-colors",
+                  tierSelected
+                    ? "border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-fill)]"
+                    : "border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)]"
+                )}
+              >
+                {tierSelected && (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <div className="h-1.5 w-1.5 rounded-full bg-[var(--ds1-main-bg-fill-inverse)]" />
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-1 flex-col min-w-0">
+                <span className="text-xs font-semibold truncate">{tier.name}</span>
+                {tier.description && (
+                  <span className="text-xs leading-tight text-[var(--ds1-main-text-secondary)]">
+                    {tier.description}
+                  </span>
+                )}
+              </div>
+              <div className="mt-0.5 flex items-baseline gap-2 shrink-0 text-right">
+                <span className="text-xs text-[var(--ds1-main-text-secondary)] whitespace-nowrap">
+                  {tier.maxValue || ""}
+                </span>
+                <span className="text-xs text-[var(--ds1-main-text-secondary)] whitespace-nowrap">
+                  {tier.businessDays || ""}
+                </span>
+                <span className="text-xs font-bold whitespace-nowrap min-w-[3rem]">
+                  {tier.price}
+                </span>
+              </div>
+            </button>
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+function SimpleTierList({
+  tiers,
+  selectedTier,
+  onSelect,
+}: {
+  tiers: ServiceTier[];
+  selectedTier: string | null;
+  onSelect: (id: string) => void;
+}) {
+  return (
+    <div className="flex flex-col">
+      {tiers.map((tier) => {
+        const tierSelected = selectedTier === tier.id;
+        const subtitle = [tier.group, tier.description].filter(Boolean).join(" · ");
+
+        return (
+          <button
+            key={tier.id}
+            onClick={() => onSelect(tier.id)}
+            className={cn(
+              "flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left transition-colors",
+              tierSelected
+                ? "bg-[var(--ds1-main-bg-layer-2)]"
+                : "hover:bg-[var(--ds1-main-bg-layer-2)]"
+            )}
+          >
+            <div
+              className={cn(
+                "h-4 w-4 shrink-0 rounded-full border transition-colors",
+                tierSelected
+                  ? "border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-fill)]"
+                  : "border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)]"
+              )}
+            >
+              {tierSelected && (
+                <div className="flex h-full w-full items-center justify-center">
+                  <div className="h-1.5 w-1.5 rounded-full bg-[var(--ds1-main-bg-fill-inverse)]" />
+                </div>
+              )}
+            </div>
+            <div className="flex flex-1 flex-col min-w-0">
+              <span className="text-xs font-semibold">{tier.name}</span>
+              {subtitle && (
+                <span className="text-xs leading-tight text-[var(--ds1-main-text-secondary)]">
+                  {subtitle}
+                </span>
+              )}
+            </div>
+            <span className="shrink-0 text-xs font-bold">{tier.price}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export function GraderStep() {
   const { state, setCardCondition, setGrader, setTier } = useWizard();
   const [expandedGrader, setExpandedGrader] = React.useState<string | null>(
@@ -64,6 +204,12 @@ export function GraderStep() {
   function handleGraderClick(graderId: string) {
     if (expandedGrader === graderId) {
       setExpandedGrader(null);
+    } else if (expandedGrader) {
+      setExpandedGrader(null);
+      setTimeout(() => {
+        setExpandedGrader(graderId);
+        setGrader(graderId);
+      }, 220);
     } else {
       setExpandedGrader(graderId);
       setGrader(graderId);
@@ -71,11 +217,11 @@ export function GraderStep() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1.5">
           <h3 className="text-lg font-bold leading-6">
-            What condition are your cards in?
+            What condition are your cards?
           </h3>
         </div>
 
@@ -88,16 +234,16 @@ export function GraderStep() {
           <RadioCard
             selected={state.cardCondition === "raw"}
             onSelect={() => setCardCondition("raw")}
-            label="Raw (ungraded)"
+            label="Raw"
           />
         </div>
       </div>
 
       {state.cardCondition === "raw" && (
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-1">
             <h3 className="text-lg font-bold leading-6">
-              Select a grading company
+              Select a grading service
             </h3>
             <p className="text-sm leading-5 text-[var(--ds1-main-text-secondary)]">
               All items must be authenticated before they can be stored in the
@@ -105,87 +251,65 @@ export function GraderStep() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             {GRADERS.map((grader) => {
               const isExpanded = expandedGrader === grader.id;
-              const isSelected = state.selectedGrader === grader.id;
 
               return (
                 <div
                   key={grader.id}
                   className={cn(
-                    "overflow-hidden rounded-lg border-1 bg-[var(--ds1-main-input-bg-fill)] border-[var(--ds1-main-border-primary)] transition-colors"
+                    "overflow-hidden rounded-lg border border-[var(--ds1-main-divider-primary)] transition-colors"
                   )}
                 >
                   <button
                     onClick={() => handleGraderClick(grader.id)}
-                    className="flex w-full items-center justify-between p-3 text-left"
+                    className="flex w-full items-center justify-between text-left p-4"
                   >
-                    <div className="flex flex-col">
-                      <span className="text-base font-bold">{grader.name}</span>
-                      <span className="text-xs text-[var(--ds1-main-text-secondary)]">
-                        From {grader.startingPrice} &middot;{" "}
-                        {grader.turnaround}
-                      </span>
-                    </div>
-                    {isExpanded ? (
-                      <ChevronUp className="h-5 w-5 shrink-0 text-[var(--ds1-main-icon-secondary)]" />
-                    ) : (
-                      <ChevronDown className="h-5 w-5 shrink-0 text-[var(--ds1-main-icon-secondary)]" />
+                    {GRADER_LOGOS[grader.id] && (
+                      <img
+                        src={GRADER_LOGOS[grader.id]}
+                        alt={`${grader.name} logo`}
+                        className="h-5 w-auto max-w-80 shrink-0"
+                      />
                     )}
+                    <div className="flex items-center gap-2 ml-auto">
+                      <ChevronDown
+                        className={cn(
+                          "h-5 w-5 shrink-0 text-[var(--ds1-main-icon-secondary)] transition-transform duration-200",
+                          isExpanded && "rotate-180"
+                        )}
+                      />
+                    </div>
                   </button>
 
-                  {isExpanded && (
-                    <div className="flex flex-col gap-2 border-t border-[var(--ds1-main-divider-primary)] p-4 pt-3">
-                      {grader.tiers.map((tier) => {
-                        const tierSelected =
-                          state.selectedTier === tier.id;
-                        return (
-                          <button
-                            key={tier.id}
-                            onClick={() => setTier(tier.id)}
-                            className={cn(
-                              "flex w-full items-start gap-2 rounded-lg p-3 text-left transition-colors",
-                              tierSelected
-                                ? "bg-[var(--ds1-main-bg-fill-alpha)]"
-                                : "hover:bg-[var(--ds1-main-bg-fill-alpha)]"
-                            )}
-                          >
-                            <div className="flex items-center pt-0.5">
-                              <div
-                                className={cn(
-                                  "h-4 w-4 shrink-0 rounded-full border transition-colors",
-                                  tierSelected
-                                    ? "border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-fill)]"
-                                    : "border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)]"
-                                )}
-                              >
-                                {tierSelected && (
-                                  <div className="flex h-full w-full items-center justify-center">
-                                    <div className="h-1.5 w-1.5 rounded-full bg-[var(--ds1-main-bg-fill-inverse)]" />
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                            <div className="flex flex-1 flex-col">
-                              <span className="text-sm font-bold">
-                                {tier.name}
-                              </span>
-                              <span className="text-xs text-[var(--ds1-main-text-secondary)]">
-                                {tier.businessDays}
-                              </span>
-                              <span className="text-xs text-[var(--ds1-main-text-secondary)]">
-                                {tier.description}
-                              </span>
-                            </div>
-                            <span className="shrink-0 text-xs font-bold">
-                              {tier.price}
-                            </span>
-                          </button>
+                  <div
+                    className={cn(
+                      "overflow-hidden transition-all duration-200 ease-out",
+                      isExpanded
+                        ? "max-h-[800px] opacity-100"
+                        : "max-h-0 opacity-0"
+                    )}
+                  >
+                    <div className="flex flex-col gap-2">
+                      {(() => {
+                        const useTable = grader.tiers.length > 3;
+                        return useTable ? (
+                          <TierTable
+                            tiers={grader.tiers}
+                            selectedTier={state.selectedTier}
+                            onSelect={setTier}
+                          />
+                        ) : (
+                          <SimpleTierList
+                            tiers={grader.tiers}
+                            selectedTier={state.selectedTier}
+                            onSelect={setTier}
+                          />
                         );
-                      })}
+                      })()}
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             })}

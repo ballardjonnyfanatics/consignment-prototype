@@ -6,6 +6,7 @@ import {
   type ItemCategory,
   type CardCondition,
   type ListingIntent,
+  type GradingType,
   type PsaCardItem,
   initialSubmissionState,
 } from "@/lib/submission-types";
@@ -23,6 +24,13 @@ function getStepsForPath(state: SubmissionState): WizardStep[] {
 
   if (state.itemCategory === "trading-cards") {
     steps.push("grader");
+  }
+
+  if (
+    state.itemCategory === "trading-cards" ||
+    state.itemCategory === "comics-collectibles" ||
+    state.itemCategory === "large-items"
+  ) {
     steps.push("item-details");
   }
 
@@ -53,6 +61,7 @@ interface WizardContextValue {
   setCardCondition: (cond: CardCondition) => void;
   setGrader: (graderId: string) => void;
   setTier: (tierId: string) => void;
+  setGradingType: (type: GradingType) => void;
   setListingIntent: (intent: ListingIntent) => void;
   setItemCount: (count: number) => void;
   setEstimatedValue: (value: number) => void;
@@ -145,8 +154,9 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
     updateState,
     setItemCategory: (cat) => updateState({ itemCategory: cat, cardCondition: null, selectedGrader: null, selectedTier: null, psaCards: [], itemCount: 0, estimatedValue: 0 }),
     setCardCondition: (cond) => updateState({ cardCondition: cond, selectedGrader: null, selectedTier: null, psaCards: [], itemCount: 0, estimatedValue: 0 }),
-    setGrader: (id) => updateState({ selectedGrader: id, selectedTier: null, psaCards: [], itemCount: 0, estimatedValue: 0 }),
+    setGrader: (id) => updateState({ selectedGrader: id, selectedTier: null, gradingType: "card", psaCards: [], itemCount: 0, estimatedValue: 0 }),
     setTier: (id) => updateState({ selectedTier: id }),
+    setGradingType: (type) => updateState({ gradingType: type, selectedTier: null }),
     setListingIntent: (intent) => updateState({ listingIntent: intent }),
     setItemCount: (count) => updateState({ itemCount: count }),
     setEstimatedValue: (value) => updateState({ estimatedValue: value }),
