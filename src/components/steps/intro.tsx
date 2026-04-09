@@ -5,7 +5,7 @@ import { Scan, Eye, Package } from "lucide-react";
 export function IntroStep() {
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="font-[family-name:var(--ds1-font-display)] text-5xl font-bold uppercase tracking-wide">
+      <h2 style={{ fontFamily: "var(--ds1-font-display)" }} className="text-5xl font-bold uppercase tracking-wide">
         How it works
       </h2>
 

@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/side-panel";
 import { useWizard } from "./wizard-context";
 
-import { IntroStep } from "@/components/steps/intro";
 import { ItemTypeStep } from "@/components/steps/item-type";
 import { GraderStep } from "@/components/steps/grader";
+import { ItemDetailsStep } from "@/components/steps/item-details";
 import { ListingIntentStep } from "@/components/steps/listing-intent";
 import { ReviewStep } from "@/components/steps/review";
 import { ConfirmationStep } from "@/components/steps/confirmation";
@@ -63,12 +63,12 @@ function IconButton({
 function StepContent() {
   const { currentStep } = useWizard();
   switch (currentStep) {
-    case "intro":
-      return <IntroStep />;
     case "item-type":
       return <ItemTypeStep />;
     case "grader":
       return <GraderStep />;
+    case "item-details":
+      return <ItemDetailsStep />;
     case "listing-intent":
       return <ListingIntentStep />;
     case "review":
@@ -82,9 +82,9 @@ function StepContent() {
 
 function getCtaLabel(step: string): string | null {
   switch (step) {
-    case "intro":
     case "item-type":
     case "grader":
+    case "item-details":
     case "listing-intent":
       return "Continue";
     case "review":
@@ -97,10 +97,18 @@ function getCtaLabel(step: string): string | null {
 }
 
 export function WizardShell({ open, onClose }: WizardShellProps) {
-  const { currentStep, progressPercent, canGoBack, goNext, goBack, reset } =
-    useWizard();
+  const {
+    currentStep,
+    progressPercent,
+    canGoBack,
+    goNext,
+    goBack,
+    reset,
+    isAddingPsaCard,
+    setIsAddingPsaCard,
+  } = useWizard();
 
-  const ctaLabel = getCtaLabel(currentStep);
+  const ctaLabel = isAddingPsaCard ? null : getCtaLabel(currentStep);
 
   function handleClose() {
     reset();
@@ -115,6 +123,16 @@ export function WizardShell({ open, onClose }: WizardShellProps) {
     }
   }
 
+  function handleBack() {
+    if (isAddingPsaCard) {
+      setIsAddingPsaCard(false);
+    } else {
+      goBack();
+    }
+  }
+
+  const showBackButton = canGoBack || isAddingPsaCard;
+
   return (
     <SidePanel
       open={open}
@@ -125,8 +143,8 @@ export function WizardShell({ open, onClose }: WizardShellProps) {
       <SidePanelContent>
         <SidePanelHeader>
           <div className="w-11">
-            {canGoBack && (
-              <IconButton onClick={goBack} label="Go back">
+            {showBackButton && (
+              <IconButton onClick={handleBack} label="Go back">
                 <ChevronLeft className="h-5 w-5 text-[var(--ds1-main-icon-primary)]" />
               </IconButton>
             )}

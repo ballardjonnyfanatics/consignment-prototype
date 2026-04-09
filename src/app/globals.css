@@ -76,34 +76,10 @@
   --ds1-radius-modal: 16px;
   --ds1-radius-max: 9999px;
 
-  /* Typography */
-  --ds1-font-body: "ABC Diatype", system-ui, sans-serif;
-  --ds1-font-display: "Manuka", system-ui, sans-serif;
-  --ds1-font-action: "ABC Diatype", system-ui, sans-serif;
-}
-
-@font-face {
-  font-family: "ABC Diatype";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local("ABC Diatype Regular"), local("ABCDiatype-Regular");
-}
-
-@font-face {
-  font-family: "ABC Diatype";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local("ABC Diatype Bold"), local("ABCDiatype-Bold");
-}
-
-@font-face {
-  font-family: "Manuka";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local("Manuka Bold"), local("ManukaBold");
+  /* Typography — references Next.js local font CSS variables */
+  --ds1-font-body: var(--font-ABCDiatype), system-ui, sans-serif;
+  --ds1-font-display: var(--font-ManukaBold), system-ui, sans-serif;
+  --ds1-font-action: var(--font-ABCDiatype), system-ui, sans-serif;
 }
 
 body {

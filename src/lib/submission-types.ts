@@ -74,10 +74,10 @@ export const ITEM_CATEGORIES: {
   label: string;
   description: string;
 }[] = [
-  { id: "trading-cards", label: "Trading cards", description: "Raw or already authenticated" },
-  { id: "comics-collectibles", label: "Comics, video games & other collectibles", description: "Already authenticated only" },
-  { id: "large-items", label: "Large or oversized items", description: "Already authenticated only \u00B7 Pre-approval required" },
-  { id: "red-rookie", label: "Red Rookie Redemption", description: "Redeem eligible rookie cards" },
+  { id: "trading-cards", label: "Trading cards", description: "Raw or authenticated" },
+  { id: "comics-collectibles", label: "Comics, video games & other collectibles", description: "Authenticated only" },
+  { id: "large-items", label: "Large items", description: "Authenticated only" },
+  { id: "red-rookie", label: "Red Rookie cards", description: "Raw or authenticated" },
 ];
 
 export const LISTING_OPTIONS: {
@@ -85,10 +85,18 @@ export const LISTING_OPTIONS: {
   label: string;
   description: string;
 }[] = [
+  { id: "vault", label: "Store in Vault", description: "Sell or retrieve anytime from your collection." },
   { id: "weekly-auction", label: "List in Weekly Auction", description: "For items under $15,000. $5 starting bid." },
   { id: "premier-auction", label: "List in Premier Auction", description: "For items over $15,000. $1,000 starting bid." },
-  { id: "vault", label: "Store in Vault", description: "Sell or retrieve anytime from your collection." },
 ];
+
+export interface PsaCardItem {
+  id: string;
+  title: string;
+  type: string;
+  estimatedValue: number;
+  quantity: number;
+}
 
 export interface SubmissionState {
   itemCategory: ItemCategory | null;
@@ -98,6 +106,7 @@ export interface SubmissionState {
   listingIntent: ListingIntent | null;
   itemCount: number;
   estimatedValue: number;
+  psaCards: PsaCardItem[];
 }
 
 export const initialSubmissionState: SubmissionState = {
@@ -106,6 +115,7 @@ export const initialSubmissionState: SubmissionState = {
   selectedGrader: null,
   selectedTier: null,
   listingIntent: null,
-  itemCount: 6,
-  estimatedValue: 2940,
+  itemCount: 0,
+  estimatedValue: 0,
+  psaCards: [],
 };

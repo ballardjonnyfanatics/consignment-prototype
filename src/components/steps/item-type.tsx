@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useWizard } from "@/components/wizard/wizard-context";
 import { ITEM_CATEGORIES } from "@/lib/submission-types";
@@ -20,7 +21,7 @@ function RadioCard({
     <button
       onClick={onSelect}
       className={cn(
-        "flex w-full items-start gap-2.5 rounded-lg border px-3 py-3 text-left transition-colors",
+        "flex w-full items-start gap-2.5 rounded-lg border-1 px-3 py-3 text-left transition-colors",
         selected
           ? "border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-layer-1)]"
           : "border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)] hover:border-[var(--ds1-main-border-primary-hover)]"
@@ -56,92 +57,81 @@ function RadioCard({
 
 const ELIGIBILITY_INFO: Record<string, React.ReactNode> = {
   "comics-collectibles": (
-    <div className="flex flex-col gap-3 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4 text-sm">
-      <p className="font-bold">We accept items from:</p>
-      <div className="flex flex-col gap-2 text-[var(--ds1-main-text-secondary)]">
-        <div><span className="font-bold text-[var(--ds1-main-text-primary)]">Comics</span><br />CGC, CBCS</div>
-        <div><span className="font-bold text-[var(--ds1-main-text-primary)]">Video games</span><br />WATA, CGC</div>
-        <div><span className="font-bold text-[var(--ds1-main-text-primary)]">Oversize slabbed items</span><br />PSA, BGS, CGC, CBCS, WATA, VGA</div>
-        <div><span className="font-bold text-[var(--ds1-main-text-primary)]">Vintage & modern wax</span><br />BBCE, GAI, PSA, and factory sealed modern sports wax</div>
-        <div><span className="font-bold text-[var(--ds1-main-text-primary)]">Small memorabilia</span><br />Baseballs, pucks, and other small items from UDA, Steiner, Fanatics Authentic, or other reputable authenticator</div>
+    <div className="flex flex-col gap-3 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
+      <p className="text-sm font-bold text-[var(--ds1-main-text-primary)]">We accept...</p>
+      <div className="h-px bg-[var(--ds1-main-divider-primary)]" />
+      <div className="flex flex-col gap-1.5 text-xs">
+        <div className="flex gap-2">
+          <span className="shrink-0">✅</span>
+          <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Comics</span> <span className="text-[var(--ds1-main-text-secondary)]">— CGC, CBCS</span></p>
+        </div>
+        <div className="flex gap-2">
+          <span className="shrink-0">✅</span>
+          <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Video games</span> <span className="text-[var(--ds1-main-text-secondary)]">— WATA, CGC</span></p>
+        </div>
+        <div className="flex gap-2">
+          <span className="shrink-0">✅</span>
+          <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Oversize slabs</span> <span className="text-[var(--ds1-main-text-secondary)]">— PSA, BGS, CGC, CBCS, WATA, VGA</span></p>
+        </div>
+        <div className="flex gap-2">
+          <span className="shrink-0">✅</span>
+          <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Wax</span> <span className="text-[var(--ds1-main-text-secondary)]">— BBCE, GAI, PSA, factory sealed</span></p>
+        </div>
+        <div className="flex gap-2">
+          <span className="shrink-0">✅</span>
+          <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Small memorabilia</span> <span className="text-[var(--ds1-main-text-secondary)]">— UDA, Steiner, Fanatics Authentic, etc.</span></p>
+        </div>
       </div>
     </div>
   ),
   "large-items": (
-    <div className="flex flex-col gap-3 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4 text-sm">
-      <div className="flex items-start gap-2 rounded-lg bg-[var(--ds1-main-bg-fill-warning-subtle)] p-3">
-        <span className="text-base">&#9888;&#65039;</span>
-        <div>
-          <p className="font-bold text-[var(--ds1-main-text-primary)]">Pre-approval required</p>
-          <p className="text-[var(--ds1-main-text-secondary)]">Large items must be approved before submission. Chat with us to get started.</p>
+    <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-3 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
+        <p className="text-sm font-bold text-[var(--ds1-main-text-primary)]">We accept...</p>
+        <div className="h-px bg-[var(--ds1-main-divider-primary)]" />
+        <div className="flex flex-col gap-1.5 text-xs">
+          <div className="flex gap-2">
+            <span className="shrink-0">✅</span>
+            <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Wax cases</span> <span className="text-[var(--ds1-main-text-secondary)]">— BBCE, factory sealed sports cases</span></p>
+          </div>
+          <div className="flex gap-2">
+            <span className="shrink-0">✅</span>
+            <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Memorabilia</span> <span className="text-[var(--ds1-main-text-secondary)]">— MeiGray, Resolution, Davious, RGU, Fanatics Authentic, or any other reputable third party authenticators</span></p>
+          </div>
         </div>
-      </div>
-      <p className="font-bold">We accept:</p>
-      <div className="flex flex-col gap-2 text-[var(--ds1-main-text-secondary)]">
-        <div><span className="font-bold text-[var(--ds1-main-text-primary)]">Memorabilia</span><br />MeiGray, Resolution, Davious, RGU, Fanatics Authentic, or other reputable authenticator</div>
-        <div><span className="font-bold text-[var(--ds1-main-text-primary)]">Wax cases</span><br />BBCE and factory sealed sports cases</div>
-        <div><span className="font-bold text-[var(--ds1-main-text-primary)]">Other larger items</span><br />By approval only</div>
       </div>
     </div>
   ),
 };
 
 export function ItemTypeStep() {
-  const { state, setItemCategory, setCardCondition } = useWizard();
+  const { state, setItemCategory } = useWizard();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
         <h3 className="text-lg font-bold leading-6">
           What are you submitting?
         </h3>
-        <p className="text-sm leading-5 text-[var(--ds1-main-text-secondary)]">
-          This determines the steps and pricing.
-        </p>
       </div>
 
       <div className="flex flex-col gap-3">
-        {ITEM_CATEGORIES.map((cat) => (
-          <React.Fragment key={cat.id}>
-            <RadioCard
-              selected={state.itemCategory === cat.id}
-              onSelect={() => setItemCategory(cat.id)}
-              label={cat.label}
-              description={cat.description}
-            />
-            {state.itemCategory === cat.id &&
-              ELIGIBILITY_INFO[cat.id] &&
-              ELIGIBILITY_INFO[cat.id]}
-          </React.Fragment>
-        ))}
+        {ITEM_CATEGORIES.map((cat) => {
+          const isSelected = state.itemCategory === cat.id;
+          const hasInfo = isSelected && ELIGIBILITY_INFO[cat.id];
+          return (
+            <div key={cat.id} className={hasInfo ? "flex flex-col gap-2" : ""}>
+              <RadioCard
+                selected={isSelected}
+                onSelect={() => setItemCategory(cat.id)}
+                label={cat.label}
+                description={cat.description}
+              />
+              {hasInfo && ELIGIBILITY_INFO[cat.id]}
+            </div>
+          );
+        })}
       </div>
-
-      {state.itemCategory === "trading-cards" && (
-        <div className="flex flex-col gap-4 pt-2">
-          <div className="flex flex-col gap-1">
-            <h3 className="text-lg font-bold leading-6">
-              What condition are they in?
-            </h3>
-            <p className="text-sm leading-5 text-[var(--ds1-main-text-secondary)]">
-              This determines your authentication options and pricing.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <RadioCard
-              selected={state.cardCondition === "raw"}
-              onSelect={() => setCardCondition("raw")}
-              label="Raw (ungraded)"
-              description="Get them authenticated"
-            />
-            <RadioCard
-              selected={state.cardCondition === "graded"}
-              onSelect={() => setCardCondition("graded")}
-              label="Already graded or authenticated"
-              description="Add to your vault"
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

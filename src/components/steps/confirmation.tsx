@@ -13,7 +13,7 @@ export function ConfirmationStep() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
         <CheckCircle className="h-12 w-12 text-[var(--ds1-main-bg-fill-positive)]" />
-        <h2 className="font-[family-name:var(--ds1-font-display)] text-5xl font-bold uppercase tracking-wide">
+        <h2 style={{ fontFamily: "var(--ds1-font-display)" }} className="text-5xl font-bold uppercase tracking-wide">
           You&apos;re all set
         </h2>
         <p className="text-sm leading-5 text-[var(--ds1-main-text-secondary)]">

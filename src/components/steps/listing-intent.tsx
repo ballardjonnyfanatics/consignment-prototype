@@ -8,7 +8,7 @@ export function ListingIntentStep() {
   const { state, setListingIntent } = useWizard();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <h3 className="text-lg font-bold leading-6">
         What would you like to happen next?
       </h3>
@@ -21,7 +21,7 @@ export function ListingIntentStep() {
               key={opt.id}
               onClick={() => setListingIntent(opt.id as ListingIntent)}
               className={cn(
-                "flex w-full items-start gap-2.5 rounded-lg border px-3 py-3 text-left transition-colors",
+                "flex w-full items-start gap-2.5 rounded-lg border-1 px-3 py-3 text-left transition-colors",
                 selected
                   ? "border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-layer-1)]"
                   : "border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)] hover:border-[var(--ds1-main-border-primary-hover)]"
@@ -30,7 +30,7 @@ export function ListingIntentStep() {
               <div className="flex items-center pt-0.5">
                 <div
                   className={cn(
-                    "h-5 w-5 shrink-0 rounded-full border-2 transition-colors",
+                    "h-5 w-5 shrink-0 rounded-full border-1 transition-colors",
                     selected
                       ? "border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-fill)]"
                       : "border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)]"

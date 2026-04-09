@@ -6,22 +6,24 @@ import {
   type ItemCategory,
   type CardCondition,
   type ListingIntent,
+  type PsaCardItem,
   initialSubmissionState,
 } from "@/lib/submission-types";
 
 export type WizardStep =
-  | "intro"
   | "item-type"
   | "grader"
+  | "item-details"
   | "listing-intent"
   | "review"
   | "confirmation";
 
 function getStepsForPath(state: SubmissionState): WizardStep[] {
-  const steps: WizardStep[] = ["intro", "item-type"];
+  const steps: WizardStep[] = ["item-type"];
 
-  if (state.itemCategory === "trading-cards" && state.cardCondition === "raw") {
+  if (state.itemCategory === "trading-cards") {
     steps.push("grader");
+    steps.push("item-details");
   }
 
   if (
@@ -52,6 +54,12 @@ interface WizardContextValue {
   setGrader: (graderId: string) => void;
   setTier: (tierId: string) => void;
   setListingIntent: (intent: ListingIntent) => void;
+  setItemCount: (count: number) => void;
+  setEstimatedValue: (value: number) => void;
+  addPsaCard: (card: Omit<PsaCardItem, "id">) => void;
+  removePsaCard: (id: string) => void;
+  isAddingPsaCard: boolean;
+  setIsAddingPsaCard: (v: boolean) => void;
 }
 
 const WizardContext = React.createContext<WizardContextValue | null>(null);
@@ -59,36 +67,34 @@ const WizardContext = React.createContext<WizardContextValue | null>(null);
 export function WizardProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = React.useState<SubmissionState>(initialSubmissionState);
   const [stepIndex, setStepIndex] = React.useState(0);
+  const [isAddingPsaCard, setIsAddingPsaCard] = React.useState(false);
 
   const steps = React.useMemo(() => getStepsForPath(state), [state]);
-  const currentStep = steps[stepIndex] ?? "intro";
+  const clampedIndex = Math.min(stepIndex, steps.length - 1);
+  const currentStep = steps[clampedIndex] ?? "item-type";
 
-  const wizardSteps = steps.filter(
-    (s) => s !== "intro" && s !== "confirmation"
-  );
+  const MAX_WIZARD_STEPS = 5; // item-type, grader, item-details, listing-intent, review
+  const wizardSteps = steps.filter((s) => s !== "confirmation");
   const wizardIndex = wizardSteps.indexOf(currentStep as typeof wizardSteps[number]);
-  const totalWizardSteps = wizardSteps.length;
 
   let progressPercent = 0;
-  if (currentStep === "intro") {
-    progressPercent = 0;
-  } else if (currentStep === "confirmation") {
+  if (currentStep === "confirmation") {
     progressPercent = 100;
   } else if (wizardIndex >= 0) {
-    progressPercent = ((wizardIndex + 1) / (totalWizardSteps + 0.1)) * 100;
+    progressPercent = ((wizardIndex + 1) / (MAX_WIZARD_STEPS + 0.1)) * 100;
   }
 
-  const canGoBack = stepIndex > 0 && currentStep !== "confirmation";
+  const canGoBack = clampedIndex > 0 && currentStep !== "confirmation";
 
   function goNext() {
-    if (stepIndex < steps.length - 1) {
-      setStepIndex(stepIndex + 1);
+    if (clampedIndex < steps.length - 1) {
+      setStepIndex(clampedIndex + 1);
     }
   }
 
   function goBack() {
     if (canGoBack) {
-      setStepIndex(stepIndex - 1);
+      setStepIndex(clampedIndex - 1);
     }
   }
 
@@ -101,22 +107,53 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
     setState((prev) => ({ ...prev, ...partial }));
   }
 
+  function addPsaCard(card: Omit<PsaCardItem, "id">) {
+    setState((prev) => {
+      const newCard: PsaCardItem = { ...card, id: crypto.randomUUID() };
+      const psaCards = [...prev.psaCards, newCard];
+      return {
+        ...prev,
+        psaCards,
+        itemCount: psaCards.reduce((sum, c) => sum + c.quantity, 0),
+        estimatedValue: psaCards.reduce((sum, c) => sum + c.estimatedValue * c.quantity, 0),
+      };
+    });
+  }
+
+  function removePsaCard(id: string) {
+    setState((prev) => {
+      const psaCards = prev.psaCards.filter((c) => c.id !== id);
+      return {
+        ...prev,
+        psaCards,
+        itemCount: psaCards.reduce((sum, c) => sum + c.quantity, 0),
+        estimatedValue: psaCards.reduce((sum, c) => sum + c.estimatedValue * c.quantity, 0),
+      };
+    });
+  }
+
   const value: WizardContextValue = {
     state,
     currentStep,
     steps,
-    currentStepIndex: stepIndex,
+    currentStepIndex: clampedIndex,
     progressPercent,
     canGoBack,
     goNext,
     goBack,
     reset,
     updateState,
-    setItemCategory: (cat) => updateState({ itemCategory: cat, cardCondition: null, selectedGrader: null, selectedTier: null }),
-    setCardCondition: (cond) => updateState({ cardCondition: cond, selectedGrader: null, selectedTier: null }),
-    setGrader: (id) => updateState({ selectedGrader: id, selectedTier: null }),
+    setItemCategory: (cat) => updateState({ itemCategory: cat, cardCondition: null, selectedGrader: null, selectedTier: null, psaCards: [], itemCount: 0, estimatedValue: 0 }),
+    setCardCondition: (cond) => updateState({ cardCondition: cond, selectedGrader: null, selectedTier: null, psaCards: [], itemCount: 0, estimatedValue: 0 }),
+    setGrader: (id) => updateState({ selectedGrader: id, selectedTier: null, psaCards: [], itemCount: 0, estimatedValue: 0 }),
     setTier: (id) => updateState({ selectedTier: id }),
     setListingIntent: (intent) => updateState({ listingIntent: intent }),
+    setItemCount: (count) => updateState({ itemCount: count }),
+    setEstimatedValue: (value) => updateState({ estimatedValue: value }),
+    addPsaCard,
+    removePsaCard,
+    isAddingPsaCard,
+    setIsAddingPsaCard,
   };
 
   return (

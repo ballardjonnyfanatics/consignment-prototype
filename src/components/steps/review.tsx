@@ -36,7 +36,7 @@ export function ReviewStep() {
   const estimatedFee = state.itemCount * (tier ? parseFloat(tier.price.replace(/[^0-9.]/g, "")) : 0);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       <h3 className="text-lg font-bold leading-6">Review your submission</h3>
 
       <div className="flex flex-col gap-1 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
@@ -49,6 +49,22 @@ export function ReviewStep() {
           value={`$${state.estimatedValue.toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
         />
       </div>
+
+      {state.psaCards.length > 0 && (
+        <div className="flex flex-col gap-2 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
+          <span className="text-sm font-bold">Cards</span>
+          {state.psaCards.map((card) => (
+            <div key={card.id} className="flex items-baseline justify-between">
+              <span className="flex-1 truncate text-sm text-[var(--ds1-main-text-secondary)]">
+                {card.title} {card.quantity > 1 && `(×${card.quantity})`}
+              </span>
+              <span className="ml-2 shrink-0 text-sm font-bold">
+                ${(card.estimatedValue * card.quantity).toLocaleString("en-US", { minimumFractionDigits: 2 })}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {estimatedFee > 0 && (
         <div className="flex items-baseline justify-between rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
