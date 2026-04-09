@@ -1,26 +1,115 @@
 @import "tailwindcss";
+@plugin "tailwindcss-animate";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* DS1 Theme Tokens - Light Mode (Collect) */
+
+  /* Background - Layers */
+  --ds1-main-bg-layer-0: #f7f7f7;
+  --ds1-main-bg-layer-1: #ffffff;
+  --ds1-main-bg-layer-2: #f7f7f7;
+  --ds1-main-bg-layer-overlay: #0000007a;
+
+  /* Background - Fill */
+  --ds1-main-bg-fill: #000000;
+  --ds1-main-bg-fill-hover: #2e2f33;
+  --ds1-main-bg-fill-disabled: #00000019;
+  --ds1-main-bg-fill-inverse: #ffffff;
+  --ds1-main-bg-fill-alpha: #0000000a;
+  --ds1-main-bg-fill-alpha-hover: #00000014;
+  --ds1-main-bg-fill-null: #00000000;
+  --ds1-main-bg-fill-null-hover: #0000000f;
+
+  /* Background - Semantic */
+  --ds1-main-bg-fill-info: #115ccb;
+  --ds1-main-bg-fill-info-subtle: #ddeafd;
+  --ds1-main-bg-fill-positive: #0f851e;
+  --ds1-main-bg-fill-positive-subtle: #cdf1d3;
+  --ds1-main-bg-fill-warning-subtle: #ffe4c4;
+
+  /* Text */
+  --ds1-main-text-primary: #212225;
+  --ds1-main-text-secondary: #000000a3;
+  --ds1-main-text-placeholder: #0000007a;
+  --ds1-main-text-disabled: #00000066;
+  --ds1-main-text-primary-inverse: #ffffff;
+  --ds1-main-text-info: #115ccb;
+  --ds1-main-text-info-on-bg-fill: #ffffff;
+
+  /* Icon */
+  --ds1-main-icon-primary: #212225;
+  --ds1-main-icon-secondary: #000000a3;
+
+  /* Border */
+  --ds1-main-border-primary: #0000001e;
+  --ds1-main-border-primary-active: #212225;
+  --ds1-main-border-primary-hover: #00000028;
+  --ds1-main-border-focus: #115ccb;
+
+  /* Divider */
+  --ds1-main-divider-primary: #00000014;
+
+  /* Input */
+  --ds1-main-input-bg-fill: #ffffff;
+
+  /* Spacing (4pt grid) */
+  --ds1-space-050: 2px;
+  --ds1-space-100: 4px;
+  --ds1-space-150: 6px;
+  --ds1-space-200: 8px;
+  --ds1-space-250: 10px;
+  --ds1-space-300: 12px;
+  --ds1-space-400: 16px;
+  --ds1-space-500: 20px;
+  --ds1-space-600: 24px;
+  --ds1-space-800: 32px;
+
+  /* Border Radius */
+  --ds1-radius-100: 4px;
+  --ds1-radius-150: 6px;
+  --ds1-radius-200: 8px;
+  --ds1-radius-300: 12px;
+  --ds1-radius-400: 16px;
+  --ds1-radius-button: 9999px;
+  --ds1-radius-input: 8px;
+  --ds1-radius-card: 8px;
+  --ds1-radius-modal: 16px;
+  --ds1-radius-max: 9999px;
+
+  /* Typography */
+  --ds1-font-body: "ABC Diatype", system-ui, sans-serif;
+  --ds1-font-display: "Manuka", system-ui, sans-serif;
+  --ds1-font-action: "ABC Diatype", system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@font-face {
+  font-family: "ABC Diatype";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("ABC Diatype Regular"), local("ABCDiatype-Regular");
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: "ABC Diatype";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("ABC Diatype Bold"), local("ABCDiatype-Bold");
+}
+
+@font-face {
+  font-family: "Manuka";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("Manuka Bold"), local("ManukaBold");
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--ds1-font-body);
+  color: var(--ds1-main-text-primary);
+  background: var(--ds1-main-bg-layer-0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

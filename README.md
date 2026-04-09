@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Consignment Prototype
+
+Interactive prototype for the Fanatics Collect submission wizard flow.
+
+## Stack
+
+- **Next.js 15** (App Router)
+- **Radix Dialog** — Side panel primitive (same as collect-web)
+- **DS1 Design Tokens** — CSS custom properties ported from collect-web
+- **Tailwind CSS 4** — Utility styling
+- **Lucide React** — Icons
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) and click **Start Submission** to open the wizard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Flow Steps
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Step | Screen | Notes |
+|------|--------|-------|
+| 0 | Introduction | "How it Works" overview |
+| 1 | Item Type | Category selection + condition (trading cards only) |
+| 2 | Grading Company | Expandable cards with service tier selection (raw cards only) |
+| 3 | Listing Intent | Weekly/Premier Auction or Vault (conditional) |
+| 4 | Review | Summary of all selections |
+| 5 | Confirmation | "You're All Set" + shipping instructions |
 
-## Learn More
+## Upgrading to one-ui
 
-To learn more about Next.js, take a look at the following resources:
+To use production DS1 components from `@fanatics-live/one-ui`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Add `.npmrc` with GitHub Packages registry config
+2. `npm install @fanatics-live/one-ui`
+3. Replace DS1 tokens in `globals.css` with `@import "@fanatics-live/one-ui/dist/styles/v3-compat.css"`
+4. Swap hand-built radio/button components with one-ui equivalents
