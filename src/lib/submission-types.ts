@@ -55,7 +55,7 @@ export const GRADERS: GraderInfo[] = [
     startingPrice: "$24.99/card",
     turnaround: "",
     tiers: [
-      { id: "psa-value-bulk", name: "Value Bulk", price: "$24.99", businessDays: "~95 days", description: "20-card min", group: "For cards valued up to $500", maxValue: "Up to $500" },
+      { id: "psa-value-bulk", name: "Value Bulk", price: "$24.99", businessDays: "~95 days", description: "20-card min, pre-1980 or post-1980", group: "For cards valued up to $500", maxValue: "Up to $500" },
       { id: "psa-value", name: "Value", price: "$32.99", businessDays: "~75 days", description: "", group: "For cards valued up to $500", maxValue: "Up to $500" },
       { id: "psa-value-plus", name: "Value Plus", price: "$49.99", businessDays: "~40 days", description: "", group: "For cards valued up to $500", maxValue: "Up to $500" },
       { id: "psa-value-max", name: "Value Max", price: "$64.99", businessDays: "~30 days", description: "", group: "For cards valued $500\u2013$2,500", maxValue: "Up to $1,000" },
@@ -70,7 +70,7 @@ export const GRADERS: GraderInfo[] = [
       { id: "psa-premium-10", name: "Premium 10", price: "$9,999", businessDays: "~7 days", description: "", group: "For cards valued $5,000+", maxValue: "Over $250,000" },
     ],
     dualTiers: [
-      { id: "psa-dual-value-bulk", name: "Value Bulk", price: "$32.99", businessDays: "~105 days", description: "20-card min", group: "For cards valued up to $500", maxValue: "Up to $500" },
+      { id: "psa-dual-value-bulk", name: "Value Bulk", price: "$32.99", businessDays: "~105 days", description: "20-card min, pre-1980 or post-1980", group: "For cards valued up to $500", maxValue: "Up to $500" },
       { id: "psa-dual-value", name: "Value", price: "$42.99", businessDays: "~85 days", description: "", group: "For cards valued up to $500", maxValue: "Up to $500" },
       { id: "psa-dual-value-plus", name: "Value Plus", price: "$64.99", businessDays: "~50 days", description: "", group: "For cards valued up to $500", maxValue: "Up to $500" },
       { id: "psa-dual-value-max", name: "Value Max", price: "$84.99", businessDays: "~40 days", description: "", group: "For cards valued $500\u2013$2,500", maxValue: "Up to $1,000" },

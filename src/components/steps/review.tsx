@@ -88,7 +88,7 @@ export function ReviewStep() {
           {state.psaCards.map((card) => (
             <div key={card.id} className="flex items-baseline justify-between">
               <span className="flex-1 truncate text-sm text-[var(--ds1-main-text-secondary)]">
-                {card.title} {card.quantity > 1 && `(×${card.quantity})`}
+                {[card.year, card.product, card.player].filter(Boolean).join(" ") || "Untitled card"} {card.quantity > 1 && `(×${card.quantity})`}
               </span>
               <span className="ml-2 shrink-0 text-sm font-bold">
                 ${(card.estimatedValue * card.quantity).toLocaleString("en-US", { minimumFractionDigits: 2 })}
