@@ -51,7 +51,7 @@ function RadioCard({
         </div>
       </div>
       <div className="flex flex-col gap-0.5">
-        <span className="text-base font-bold leading-6">{label}</span>
+        <span className="text-base leading-6">{label}</span>
         {description && (
           <span className="text-xs leading-4 text-[var(--ds1-main-text-secondary)]">
             {description}
@@ -84,7 +84,7 @@ function TierTable({
           <React.Fragment key={tier.id}>
             {showGroupHeader && (
               <div className="px-3 pt-2 pb-2">
-                <span className="text-xs font-semibold text-[var(--ds1-main-text-secondary)]">
+                <span className="text-xs text-[var(--ds1-main-text-secondary)]">
                   {tier.group}
                 </span>
               </div>

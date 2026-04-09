@@ -119,7 +119,10 @@ export const LISTING_OPTIONS: {
 
 export interface PsaCardItem {
   id: string;
-  title: string;
+  year: string;
+  product: string;
+  player: string;
+  cardNumber: string;
   type: string;
   estimatedValue: number;
   quantity: number;

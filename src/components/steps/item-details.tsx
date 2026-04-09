@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Plus, MoreHorizontal } from "lucide-react";
+import { Plus, Minus, MoreHorizontal } from "lucide-react";
 import { useWizard } from "@/components/wizard/wizard-context";
 import { FloatingInput } from "@/components/ui/floating-input";
 
@@ -43,22 +43,19 @@ function SimpleForm() {
 }
 
 function PsaCardRow({
-  title,
-  type,
-  estimatedValue,
-  quantity,
+  card,
   onRemove,
 }: {
-  title: string;
-  type: string;
-  estimatedValue: number;
-  quantity: number;
+  card: { year: string; product: string; player: string; cardNumber: string; type: string; estimatedValue: number; quantity: number };
   onRemove: () => void;
 }) {
+  const titleParts = [card.year, card.product].filter(Boolean);
+  const title = titleParts.length > 0 ? titleParts.join(" ") : "Untitled card";
+
   return (
-    <div className="flex flex-col gap-2 rounded-lg bg-[var(--ds1-main-bg-layer-1)] px-3 pb-4 pt-3">
+    <div className="flex flex-col gap-2 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-3">
       <div className="flex items-center gap-2">
-        <p className="flex-1 truncate text-base font-medium text-[var(--ds1-main-text-primary)]">
+        <p className="flex-1 truncate text-base font-bold text-[var(--ds1-main-text-primary)]">
           {title}
         </p>
         <button
@@ -69,24 +66,37 @@ function PsaCardRow({
           <MoreHorizontal className="h-5 w-5 text-[var(--ds1-main-icon-secondary)]" />
         </button>
       </div>
-      <div className="flex flex-col text-xs leading-4 text-[var(--ds1-main-text-primary)]">
-        <span>Type: {type}</span>
-        <span>Estimated value: ${estimatedValue.toLocaleString()}</span>
-        <span>Quantity: {quantity}</span>
+      <div className="flex flex-col text-xs leading-4 text-[var(--ds1-main-text-secondary)]">
+        <span>{card.player}{card.cardNumber ? ` · #${card.cardNumber}` : ""}</span>
+        {card.type && <span>{card.type}</span>}
+        <span>${card.estimatedValue.toLocaleString()} · Qty {card.quantity}</span>
       </div>
     </div>
   );
 }
 
-function AddCardForm({ onSave }: { onSave: (card: { title: string; type: string; estimatedValue: number; quantity: number }) => void }) {
-  const [title, setTitle] = React.useState("");
-  const [type, setType] = React.useState("Trading Card Game");
+function AddCardForm({ onSave }: { onSave: (card: { year: string; product: string; player: string; cardNumber: string; type: string; estimatedValue: number; quantity: number }) => void }) {
+  const [year, setYear] = React.useState("");
+  const [product, setProduct] = React.useState("");
+  const [player, setPlayer] = React.useState("");
+  const [cardNumber, setCardNumber] = React.useState("");
+  const [type, setType] = React.useState("");
   const [value, setValue] = React.useState<number>(0);
   const [quantity, setQuantity] = React.useState<number>(1);
 
+  const canSave = player.trim().length > 0 && value > 0;
+
   function handleSave() {
-    if (!title.trim() || value <= 0) return;
-    onSave({ title: title.trim(), type, estimatedValue: value, quantity });
+    if (!canSave) return;
+    onSave({
+      year: year.trim(),
+      product: product.trim(),
+      player: player.trim(),
+      cardNumber: cardNumber.trim(),
+      type: type.trim(),
+      estimatedValue: value,
+      quantity,
+    });
   }
 
   return (
@@ -95,41 +105,62 @@ function AddCardForm({ onSave }: { onSave: (card: { title: string; type: string;
 
       <div className="flex flex-col gap-3">
         <FloatingInput
-          label="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          label="Year"
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+        />
+        <FloatingInput
+          label="Product"
+          value={product}
+          onChange={(e) => setProduct(e.target.value)}
+        />
+        <FloatingInput
+          label="Player or character"
+          value={player}
+          onChange={(e) => setPlayer(e.target.value)}
+        />
+        <FloatingInput
+          label="Card #"
+          value={cardNumber}
+          onChange={(e) => setCardNumber(e.target.value)}
         />
         <FloatingInput
           label="Type"
           value={type}
           onChange={(e) => setType(e.target.value)}
         />
-        <div className="flex gap-3">
-          <FloatingInput
-            label="Estimated value"
-            type="number"
-            inputMode="numeric"
-            min={0}
-            prefix="$"
-            value={value}
-            onChange={(e) => setValue(parseFloat(e.target.value) || 0)}
-            className="flex-1"
-          />
-          <FloatingInput
-            label="Quantity"
-            type="number"
-            inputMode="numeric"
-            min={1}
-            value={quantity}
-            onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-            className="w-24"
-          />
+        <FloatingInput
+          label="Estimated value"
+          type="number"
+          inputMode="numeric"
+          min={0}
+          prefix="$"
+          value={value}
+          onChange={(e) => setValue(parseFloat(e.target.value) || 0)}
+        />
+        <div className="flex items-center justify-between rounded-[var(--ds1-radius-input)] border border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)] px-3 py-2.5">
+          <span className="text-sm text-[var(--ds1-main-text-secondary)]">Quantity</span>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setQuantity(Math.max(1, quantity - 1))}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--ds1-main-border-primary)] transition-colors hover:bg-[var(--ds1-main-bg-fill-alpha)]"
+            >
+              <Minus className="h-4 w-4" />
+            </button>
+            <span className="w-6 text-center text-sm font-bold">{quantity}</span>
+            <button
+              onClick={() => setQuantity(quantity + 1)}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--ds1-main-border-primary)] transition-colors hover:bg-[var(--ds1-main-bg-fill-alpha)]"
+            >
+              <Plus className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </div>
 
       <button
         onClick={handleSave}
-        disabled={!title.trim() || value <= 0}
+        disabled={!canSave}
         className="flex w-full items-center justify-center rounded-full bg-[var(--ds1-main-bg-fill)] px-8 py-4 text-base font-bold text-[var(--ds1-main-text-primary-inverse)] transition-colors hover:bg-[var(--ds1-main-bg-fill-hover)] disabled:bg-[var(--ds1-main-bg-fill-disabled)] disabled:text-[var(--ds1-main-text-disabled)]"
       >
         Save card
@@ -185,10 +216,7 @@ function PsaItemisedList() {
           {state.psaCards.map((card) => (
             <PsaCardRow
               key={card.id}
-              title={card.title}
-              type={card.type}
-              estimatedValue={card.estimatedValue}
-              quantity={card.quantity}
+              card={card}
               onRemove={() => removePsaCard(card.id)}
             />
           ))}
