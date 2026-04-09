@@ -19,12 +19,21 @@ export function ReviewStep() {
   const { state } = useWizard();
 
   const isRaw = state.cardCondition === "raw";
+  const isRedRookie = state.itemCategory === "red-rookie";
   const grader = GRADERS.find((g) => g.id === state.selectedGrader);
   const tier = grader?.tiers.find((t) => t.id === state.selectedTier);
 
   const hasListing =
     state.listingIntent === "weekly-auction" ||
     state.listingIntent === "premier-auction";
+
+  const submissionType = (() => {
+    if (isRedRookie) return "Red Rookie Redemption";
+    if (isRaw && hasListing) return "Authenticate, Vault & Sell";
+    if (isRaw) return "Authenticate & Vault";
+    if (hasListing) return "Vault & Sell";
+    return "Vault only";
+  })();
 
   const listingRoute =
     state.listingIntent === "weekly-auction"
@@ -41,6 +50,7 @@ export function ReviewStep() {
       <h3 className="text-lg font-bold leading-6">Review your submission</h3>
 
       <div className="flex flex-col gap-1 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
+        <SummaryRow label="Submission type" value={submissionType} />
         <SummaryRow label="Number of items" value={String(state.itemCount)} />
         <SummaryRow
           label="Estimated total value"
@@ -50,22 +60,25 @@ export function ReviewStep() {
 
       {isRaw && grader && (
         <div className="flex flex-col gap-1 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
-          <span className="text-xs font-semibold text-[var(--ds1-main-text-secondary)] pb-1">Authentication</span>
           <SummaryRow label="Grading company" value={grader.name} />
           {tier && <SummaryRow label="Service tier" value={tier.name} />}
           {estimatedGradingCost > 0 && (
-            <SummaryRow
-              label="Estimated grading cost"
-              value={`$${estimatedGradingCost.toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
-            />
+            <div className="flex items-baseline justify-between py-0.5">
+              <div className="flex flex-col">
+                <span className="text-sm text-[var(--ds1-main-text-secondary)]">Estimated grading cost</span>
+                <span className="text-xs text-[var(--ds1-main-text-secondary)]">Payable once your submission is complete.</span>
+              </div>
+              <span className="text-sm font-bold">
+                ${estimatedGradingCost.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+              </span>
+            </div>
           )}
         </div>
       )}
 
       {hasListing && listingRoute && (
         <div className="flex flex-col gap-1 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
-          <span className="text-xs font-semibold text-[var(--ds1-main-text-secondary)] pb-1">Marketplace</span>
-          <SummaryRow label="Listing route" value={listingRoute} />
+          <SummaryRow label="Selling via" value={listingRoute} />
         </div>
       )}
 

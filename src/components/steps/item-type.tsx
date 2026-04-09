@@ -6,28 +6,37 @@ import { cn } from "@/lib/utils";
 import { useWizard } from "@/components/wizard/wizard-context";
 import { ITEM_CATEGORIES } from "@/lib/submission-types";
 
+const CATEGORY_IMAGES: Record<string, string> = {
+  "trading-cards": "/categories/trading-cards.png",
+  "comics-collectibles": "/categories/comics-collectibles.png",
+  "large-items": "/categories/large-items.png",
+  "red-rookie": "/categories/red-rookie.png",
+};
+
 function RadioCard({
   selected,
   onSelect,
   label,
   description,
+  image,
 }: {
   selected: boolean;
   onSelect: () => void;
   label: string;
   description?: string;
+  image?: string;
 }) {
   return (
     <button
       onClick={onSelect}
       className={cn(
-        "flex w-full items-start gap-2.5 rounded-lg text-left transition-colors",
+        "flex w-full items-center gap-2.5 rounded-lg text-left transition-colors",
         selected
           ? "border-2 px-[11px] py-[11px] border-[var(--ds1-main-border-primary-active)] bg-[var(--ds1-main-bg-layer-1)]"
           : "border px-3 py-3 border-[var(--ds1-main-border-primary)] bg-[var(--ds1-main-input-bg-fill)] hover:border-[var(--ds1-main-border-primary-hover)]"
       )}
     >
-      <div className="flex items-center pt-0.5">
+      <div className="flex items-center">
         <div
           className={cn(
             "h-4 w-4 shrink-0 rounded-full border transition-colors",
@@ -43,7 +52,7 @@ function RadioCard({
           )}
         </div>
       </div>
-      <div className="flex flex-col gap-0.5">
+      <div className="flex flex-1 flex-col gap-0.5">
         <span className="text-base font-bold leading-6">{label}</span>
         {description && (
           <span className="text-xs leading-4 text-[var(--ds1-main-text-secondary)]">
@@ -51,6 +60,13 @@ function RadioCard({
           </span>
         )}
       </div>
+      {image && (
+        <img
+          src={image}
+          alt=""
+          className="h-12 w-12 shrink-0 object-contain"
+        />
+      )}
     </button>
   );
 }
@@ -126,6 +142,7 @@ export function ItemTypeStep() {
                 onSelect={() => setItemCategory(cat.id)}
                 label={cat.label}
                 description={cat.description}
+                image={CATEGORY_IMAGES[cat.id]}
               />
               {hasInfo && ELIGIBILITY_INFO[cat.id]}
             </div>

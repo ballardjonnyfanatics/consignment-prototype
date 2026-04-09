@@ -26,11 +26,13 @@ interface WizardShellProps {
 function ProgressBar({ percent }: { percent: number }) {
   if (percent <= 0) return null;
   return (
-    <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--ds1-main-bg-fill-alpha)]">
+    <div className="h-3 w-full overflow-hidden rounded-full bg-[var(--ds1-main-bg-fill-alpha)]">
       <div
-        className="h-full rounded-full bg-[var(--ds1-main-bg-fill)] transition-all duration-500 ease-out"
+        className="flex h-full flex-col items-center rounded-full bg-[var(--ds1-main-bg-fill)] px-1 pt-[2px] transition-all duration-500 ease-out"
         style={{ width: `${Math.min(percent, 100)}%` }}
-      />
+      >
+        <div className="h-[4px] w-full rounded-full bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.2)] via-20% to-[rgba(255,255,255,0.35)]" />
+      </div>
     </div>
   );
 }
