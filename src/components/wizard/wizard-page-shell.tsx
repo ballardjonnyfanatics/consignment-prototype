@@ -1,48 +1,10 @@
 "use client";
 
-import { ChevronLeft, X } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  SidePanel,
-  SidePanelContent,
-  SidePanelHeader,
-  SidePanelBody,
-  SidePanelFooter,
-} from "@/components/ui/side-panel";
+import { ChevronLeft } from "lucide-react";
 import { useWizard } from "./wizard-context";
 import { ProgressBar, StepContent, getCtaLabel } from "./wizard-shared";
 
-interface WizardShellProps {
-  open: boolean;
-  onClose: () => void;
-}
-
-function IconButton({
-  onClick,
-  children,
-  className,
-  label,
-}: {
-  onClick: () => void;
-  children: React.ReactNode;
-  className?: string;
-  label: string;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      aria-label={label}
-      className={cn(
-        "flex shrink-0 items-center justify-center rounded-full p-3 transition-colors hover:bg-[var(--ds1-main-bg-fill-null-hover)]",
-        className
-      )}
-    >
-      {children}
-    </button>
-  );
-}
-
-export function WizardShell({ open, onClose }: WizardShellProps) {
+export function WizardPageShell() {
   const {
     state,
     currentStep,
@@ -62,14 +24,9 @@ export function WizardShell({ open, onClose }: WizardShellProps) {
     state.listingIntent === "weekly-auction" ||
     state.listingIntent === "premier-auction";
 
-  function handleClose() {
-    reset();
-    onClose();
-  }
-
   function handleCta() {
     if (currentStep === "confirmation") {
-      handleClose();
+      reset();
     } else {
       goNext();
     }
@@ -91,39 +48,34 @@ export function WizardShell({ open, onClose }: WizardShellProps) {
   const showBackButton = canGoBack || isAddingPsaCard;
 
   return (
-    <SidePanel
-      open={open}
-      onOpenChange={(o) => !o && handleClose()}
-      onBackdropClick={handleClose}
-      modal={false}
-    >
-      <SidePanelContent>
-        <SidePanelHeader>
+    <div className="flex min-h-screen items-start justify-center bg-[var(--ds1-main-bg-layer-0)] p-4 sm:p-8">
+      <div className="flex min-h-[calc(100vh-6rem)] w-full max-w-[600px] flex-col rounded-2xl bg-[var(--ds1-main-bg-layer-1)] sm:min-h-[calc(100vh-6rem)]">
+        <header className="flex shrink-0 items-center p-1.5">
           <div className="w-11">
             {showBackButton && (
-              <IconButton onClick={handleBack} label="Go back">
+              <button
+                onClick={handleBack}
+                aria-label="Go back"
+                className="flex shrink-0 items-center justify-center rounded-full p-3 transition-colors hover:bg-[var(--ds1-main-bg-fill-null-hover)]"
+              >
                 <ChevronLeft className="h-5 w-5 text-[var(--ds1-main-icon-primary)]" />
-              </IconButton>
+              </button>
             )}
           </div>
           <div className="flex flex-1 items-center justify-center px-2.5 py-2.5">
-            <span className="text-center text-lg font-bold leading-6">
-              Submission
-            </span>
+            <span className="text-lg font-bold leading-6">Submission</span>
           </div>
-          <IconButton onClick={handleClose} label="Close">
-            <X className="h-5 w-5 text-[var(--ds1-main-icon-primary)]" />
-          </IconButton>
-        </SidePanelHeader>
+          <div className="w-11" />
+        </header>
 
         <ProgressBar percent={progressPercent} />
 
-        <SidePanelBody>
+        <main className="mx-auto flex w-full flex-1 flex-col gap-6 p-8">
           <StepContent />
-        </SidePanelBody>
+        </main>
 
         {ctaLabel && (
-          <SidePanelFooter>
+          <footer className="mx-auto w-full  p-8">
             <div className="flex flex-col gap-2">
               <button
                 onClick={handleCta}
@@ -141,9 +93,9 @@ export function WizardShell({ open, onClose }: WizardShellProps) {
                 </button>
               )}
             </div>
-          </SidePanelFooter>
+          </footer>
         )}
-      </SidePanelContent>
-    </SidePanel>
+      </div>
+    </div>
   );
 }

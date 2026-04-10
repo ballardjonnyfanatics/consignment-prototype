@@ -38,11 +38,10 @@ export function ReviewStep() {
   const estimatedGradingCost = state.itemCount * tierPrice;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       <h3 className="text-lg font-bold leading-6">Review your submission</h3>
-
-      <div className="flex flex-col gap-0.5 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-3">
-        <SummaryRow label="Number of items" value={String(state.itemCount)} />
+      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-4">
         <SummaryRow
           label="Estimated total value"
           value={`$${state.estimatedValue.toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
@@ -50,7 +49,7 @@ export function ReviewStep() {
       </div>
 
       {isRaw && grader && (
-        <div className="flex flex-col gap-0.5 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-3">
+        <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-4">
           <SummaryRow label="Authenticated by" value={grader.name} />
           {tier && <SummaryRow label="Service" value={tier.name} />}
           {estimatedGradingCost > 0 && (
@@ -68,13 +67,13 @@ export function ReviewStep() {
       )}
 
       {hasListing && listingRoute && (
-        <div className="flex flex-col gap-0.5 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-3">
+        <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-4">
           <SummaryRow label="Selling via" value={listingRoute} />
         </div>
       )}
 
       {state.psaCards.length > 0 && (
-        <div className="flex flex-col gap-0.5 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-3">
+        <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-4">
           <span className="text-xs font-semibold text-[var(--ds1-main-text-secondary)]">Cards</span>
           {state.psaCards.map((card) => (
             <div key={card.id} className="flex items-baseline justify-between">
@@ -89,7 +88,7 @@ export function ReviewStep() {
         </div>
       )}
 
-      <div className="flex gap-2 rounded-xl bg-[var(--ds1-main-bg-fill-info-subtle)] p-3">
+      <div className="flex gap-2 rounded-lg bg-[var(--ds1-main-bg-fill-info-subtle)] p-3">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-[var(--ds1-main-icon-primary)]" />
         <div className="flex flex-col gap-0.5">
           <span className="text-sm font-bold">Vault fees may apply</span>
@@ -97,6 +96,7 @@ export function ReviewStep() {
             Items valued under $50 may incur a one-time processing
             fee of $3 if they are not sold within 30 days.
           </span>
+          </div>
         </div>
       </div>
     </div>

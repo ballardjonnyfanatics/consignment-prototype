@@ -126,7 +126,7 @@ function SidePanelBody({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("flex-1 overflow-x-clip overflow-y-auto p-4", className)}
+      className={cn("flex-1 overflow-x-clip overflow-y-auto px-4 py-6", className)}
       {...props}
     />
   );

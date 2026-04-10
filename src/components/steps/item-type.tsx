@@ -1,30 +1,22 @@
 "use client";
 
 import * as React from "react";
-import { Info } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import { useWizard } from "@/components/wizard/wizard-context";
 import { ITEM_CATEGORIES } from "@/lib/submission-types";
 
-const CATEGORY_IMAGES: Record<string, string> = {
-  "trading-cards": "/categories/trading-cards.png",
-  "comics-collectibles": "/categories/comics-collectibles.png",
-  "large-items": "/categories/large-items.png",
-  "red-rookie": "/categories/red-rookie.png",
-};
 
 function RadioCard({
   selected,
   onSelect,
   label,
   description,
-  image,
 }: {
   selected: boolean;
   onSelect: () => void;
   label: string;
   description?: string;
-  image?: string;
 }) {
   return (
     <button
@@ -60,61 +52,38 @@ function RadioCard({
           </span>
         )}
       </div>
-      {image && (
-        <img
-          src={image}
-          alt=""
-          className="h-10 w-10 shrink-0 object-contain"
-        />
-      )}
     </button>
+  );
+}
+
+function EligibilityItem({ label, detail }: { label: string; detail: string }) {
+  return (
+    <div className="flex gap-2">
+      <span className="shrink-0">✅</span>
+      <p><span className="font-bold text-[var(--ds1-main-text-primary)]">{label}</span> <span className="text-[var(--ds1-main-text-secondary)]"> {detail}</span></p>
+    </div>
   );
 }
 
 const ELIGIBILITY_INFO: Record<string, React.ReactNode> = {
   "comics-collectibles": (
-    <div className="flex flex-col gap-3 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
-      <p className="text-sm font-bold text-[var(--ds1-main-text-primary)]">We accept...</p>
-      <div className="h-px bg-[var(--ds1-main-divider-primary)]" />
-      <div className="flex flex-col gap-1.5 text-xs">
-        <div className="flex gap-2">
-          <span className="shrink-0">✅</span>
-          <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Comics</span> <span className="text-[var(--ds1-main-text-secondary)]">— CGC, CBCS</span></p>
-        </div>
-        <div className="flex gap-2">
-          <span className="shrink-0">✅</span>
-          <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Video games</span> <span className="text-[var(--ds1-main-text-secondary)]">— WATA, CGC</span></p>
-        </div>
-        <div className="flex gap-2">
-          <span className="shrink-0">✅</span>
-          <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Oversize slabs</span> <span className="text-[var(--ds1-main-text-secondary)]">— PSA, BGS, CGC, CBCS, WATA, VGA</span></p>
-        </div>
-        <div className="flex gap-2">
-          <span className="shrink-0">✅</span>
-          <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Wax</span> <span className="text-[var(--ds1-main-text-secondary)]">— BBCE, GAI, PSA, factory sealed</span></p>
-        </div>
-        <div className="flex gap-2">
-          <span className="shrink-0">✅</span>
-          <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Small memorabilia</span> <span className="text-[var(--ds1-main-text-secondary)]">— UDA, Steiner, Fanatics Authentic, etc.</span></p>
-        </div>
+    <div className="flex flex-col gap-2 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4 text-xs">
+      <span className="text-xs text-[var(--ds1-main-text-secondary)]">Accepted authenticators</span>
+      <div className="flex flex-col gap-1.5">
+        <EligibilityItem label="Comics:" detail="CGC, CBCS" />
+        <EligibilityItem label="Video games:" detail="WATA, CGC" />
+        <EligibilityItem label="Oversize slabs:" detail="PSA, BGS, CGC, CBCS, WATA, VGA" />
+        <EligibilityItem label="Wax:" detail="BBCE, GAI, PSA, factory sealed" />
+        <EligibilityItem label="Small memorabilia:" detail="UDA, Steiner, Fanatics Authentic, etc." />
       </div>
     </div>
   ),
   "large-items": (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex flex-col gap-3 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-4">
-        <p className="text-sm font-bold text-[var(--ds1-main-text-primary)]">We accept...</p>
-        <div className="h-px bg-[var(--ds1-main-divider-primary)]" />
-        <div className="flex flex-col gap-1.5 text-xs">
-          <div className="flex gap-2">
-            <span className="shrink-0">✅</span>
-            <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Wax cases</span> <span className="text-[var(--ds1-main-text-secondary)]">— BBCE, factory sealed sports cases</span></p>
-          </div>
-          <div className="flex gap-2">
-            <span className="shrink-0">✅</span>
-            <p><span className="font-bold text-[var(--ds1-main-text-primary)]">Memorabilia</span> <span className="text-[var(--ds1-main-text-secondary)]">— MeiGray, Resolution, Davious, RGU, Fanatics Authentic, or any other reputable third party authenticators</span></p>
-          </div>
-        </div>
+    <div className="flex flex-col gap-2 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-3 text-xs">
+      <span className="text-xs text-[var(--ds1-main-text-secondary)]">Accepted authenticators</span>
+      <div className="flex flex-col gap-1.5">
+        <EligibilityItem label="Wax cases:" detail="BBCE, factory sealed sports cases" />
+        <EligibilityItem label="Memorabilia:" detail="MeiGray, Resolution, Davious, RGU, Fanatics Authentic, or any other reputable third party authenticators" />
       </div>
     </div>
   ),
@@ -142,7 +111,6 @@ export function ItemTypeStep() {
                 onSelect={() => setItemCategory(cat.id)}
                 label={cat.label}
                 description={cat.description}
-                image={CATEGORY_IMAGES[cat.id]}
               />
               {hasInfo && ELIGIBILITY_INFO[cat.id]}
             </div>
