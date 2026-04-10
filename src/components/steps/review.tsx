@@ -41,7 +41,7 @@ export function ReviewStep() {
     <div className="flex flex-col gap-4">
       <h3 className="text-lg font-bold leading-6">Review your submission</h3>
       <div className="flex flex-col gap-3">
-      <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-4">
+      <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] px-4 py-3">
         <SummaryRow
           label="Estimated total value"
           value={`$${state.estimatedValue.toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
@@ -49,7 +49,7 @@ export function ReviewStep() {
       </div>
 
       {isRaw && grader && (
-        <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-4">
+        <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] px-4 py-3">
           <SummaryRow label="Authenticated by" value={grader.name} />
           {tier && <SummaryRow label="Service" value={tier.name} />}
           {estimatedGradingCost > 0 && (
@@ -67,13 +67,13 @@ export function ReviewStep() {
       )}
 
       {hasListing && listingRoute && (
-        <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-4">
+        <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] px-4 py-3">
           <SummaryRow label="Selling via" value={listingRoute} />
         </div>
       )}
 
       {state.psaCards.length > 0 && (
-        <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-4">
+        <div className="flex flex-col gap-0.5 rounded-lg bg-[var(--ds1-main-bg-layer-2)] px-4 py-3">
           <span className="text-xs font-semibold text-[var(--ds1-main-text-secondary)]">Cards</span>
           {state.psaCards.map((card) => (
             <div key={card.id} className="flex items-baseline justify-between">

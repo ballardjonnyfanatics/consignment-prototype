@@ -15,7 +15,7 @@ export function ConfirmationStep() {
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-0">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--ds1-main-bg-fill-positive)]">
@@ -23,7 +23,7 @@ export function ConfirmationStep() {
           </div>
           <div className="flex flex-col gap-0">
             <h3 className="text-lg font-bold leading-6">Submission created</h3>
-            <p className="text-sm leading-5 text-[var(--ds1-main-text-secondary)]">
+            <p className="text-xs leading-5 text-[var(--ds1-main-text-secondary)]">
             #2665328
             </p>
           </div>
