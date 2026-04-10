@@ -2,6 +2,7 @@
 
 import { useWizard } from "./wizard-context";
 import { ItemTypeStep } from "@/components/steps/item-type";
+import { CardConditionStep } from "@/components/steps/card-condition";
 import { GraderStep } from "@/components/steps/grader";
 import { ItemDetailsStep } from "@/components/steps/item-details";
 import { ListingIntentStep } from "@/components/steps/listing-intent";
@@ -27,6 +28,8 @@ export function StepContent() {
   switch (currentStep) {
     case "item-type":
       return <ItemTypeStep />;
+    case "card-condition":
+      return <CardConditionStep />;
     case "grader":
       return <GraderStep />;
     case "item-details":
@@ -44,6 +47,7 @@ export function StepContent() {
 
 export function getCtaLabel(step: string): string | null {
   switch (step) {
+    case "card-condition":
     case "item-type":
     case "grader":
     case "item-details":

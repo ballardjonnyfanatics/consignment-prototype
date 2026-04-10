@@ -13,6 +13,7 @@ import {
 
 export type WizardStep =
   | "item-type"
+  | "card-condition"
   | "grader"
   | "item-details"
   | "listing-intent"
@@ -23,7 +24,10 @@ function getStepsForPath(state: SubmissionState): WizardStep[] {
   const steps: WizardStep[] = ["item-type"];
 
   if (state.itemCategory === "trading-cards") {
-    steps.push("grader");
+    steps.push("card-condition");
+    if (state.cardCondition === "raw") {
+      steps.push("grader");
+    }
   }
 
   if (
@@ -82,7 +86,7 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
   const clampedIndex = Math.min(stepIndex, steps.length - 1);
   const currentStep = steps[clampedIndex] ?? "item-type";
 
-  const MAX_WIZARD_STEPS = 5; // item-type, grader, item-details, listing-intent, review
+  const MAX_WIZARD_STEPS = 6;
   const wizardSteps = steps.filter((s) => s !== "confirmation");
   const wizardIndex = wizardSteps.indexOf(currentStep as typeof wizardSteps[number]);
 

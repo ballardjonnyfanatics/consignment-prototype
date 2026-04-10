@@ -70,7 +70,7 @@ export function WizardPageShell() {
 
         <ProgressBar percent={progressPercent} />
 
-        <main className="mx-auto flex w-full flex-1 flex-col gap-6 p-8">
+        <main className="mx-auto flex w-full flex-1 flex-col gap-6 p-6">
           <StepContent />
         </main>
 
