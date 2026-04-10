@@ -27,14 +27,6 @@ export function ReviewStep() {
     state.listingIntent === "weekly-auction" ||
     state.listingIntent === "premier-auction";
 
-  const submissionType = (() => {
-    if (isRedRookie) return "Red Rookie Redemption";
-    if (isRaw && hasListing) return "Authenticate, Vault & Sell";
-    if (isRaw) return "Authenticate & Vault";
-    if (hasListing) return "Vault & Sell";
-    return "Vault only";
-  })();
-
   const listingRoute =
     state.listingIntent === "weekly-auction"
       ? "Weekly Auction"
@@ -50,7 +42,6 @@ export function ReviewStep() {
       <h3 className="text-lg font-bold leading-6">Review your submission</h3>
 
       <div className="flex flex-col gap-0.5 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-3">
-        <SummaryRow label="Submission type" value={submissionType} />
         <SummaryRow label="Number of items" value={String(state.itemCount)} />
         <SummaryRow
           label="Estimated total value"
@@ -60,8 +51,8 @@ export function ReviewStep() {
 
       {isRaw && grader && (
         <div className="flex flex-col gap-0.5 rounded-xl bg-[var(--ds1-main-bg-layer-2)] p-3">
-          <SummaryRow label="Grading company" value={grader.name} />
-          {tier && <SummaryRow label="Service tier" value={tier.name} />}
+          <SummaryRow label="Authenticated by" value={grader.name} />
+          {tier && <SummaryRow label="Service" value={tier.name} />}
           {estimatedGradingCost > 0 && (
             <div className="flex items-baseline justify-between py-0.5">
               <div className="flex flex-col">

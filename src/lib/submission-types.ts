@@ -45,7 +45,7 @@ export const GRADERS: GraderInfo[] = [
     startingPrice: "$3",
     turnaround: "",
     tiers: [
-      { id: "cgc-auth", name: "Authentication Only", price: "$3", businessDays: "", description: "No numerical grading", group: "For cards valued $1\u2013$50" },
+      { id: "cgc-auth", name: "Authentication only", price: "$3", businessDays: "", description: "No numerical grading", group: "For cards valued $1\u2013$50" },
       { id: "cgc-standard", name: "Standard", price: "$10", businessDays: "", description: "", group: "For cards valued $50+" },
     ],
   },
@@ -112,9 +112,8 @@ export const LISTING_OPTIONS: {
   label: string;
   description: string;
 }[] = [
-  { id: "vault", label: "Store in Vault", description: "Sell or retrieve anytime from your collection." },
-  { id: "weekly-auction", label: "List in Weekly Auction", description: "For items under $15,000. $5 starting bid." },
-  { id: "premier-auction", label: "List in Premier Auction", description: "For items over $15,000. $1,000 starting bid." },
+  { id: "weekly-auction", label: "Weekly Auction", description: "For items under $15,000. $5 starting bid." },
+  { id: "premier-auction", label: "Premier Auction", description: "For items over $15,000. $1,000 starting bid." },
 ];
 
 export interface PsaCardItem {

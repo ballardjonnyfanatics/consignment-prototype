@@ -193,8 +193,7 @@ function PsaItemisedList() {
           Tell us about the cards you&apos;re sending
         </h3>
         <p className="text-sm leading-5 text-[var(--ds1-main-text-secondary)]">
-          PSA require an itemised list of all the ungraded items you are
-          submitting.
+          PSA require an itemised list of all the items you are submitting.
         </p>
       </div>
 

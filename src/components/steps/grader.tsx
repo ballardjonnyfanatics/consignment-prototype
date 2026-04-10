@@ -229,7 +229,7 @@ export function GraderStep() {
         <RadioCard
             selected={state.cardCondition === "graded"}
             onSelect={() => setCardCondition("graded")}
-            label="Graded or authenticated"
+            label="Authenticated"
           />
           <RadioCard
             selected={state.cardCondition === "raw"}
@@ -243,11 +243,10 @@ export function GraderStep() {
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-1">
             <h3 className="text-lg font-bold leading-6">
-              Select a grading service
+              Choose an authentication service
             </h3>
             <p className="text-sm leading-5 text-[var(--ds1-main-text-secondary)]">
-              All items must be authenticated before they can be stored in the
-              Vault. Choose a grading company for your raw cards.
+              All items must be authenticated before they can be stored in the Vault.
             </p>
           </div>
 

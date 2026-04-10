@@ -100,17 +100,23 @@ function getCtaLabel(step: string): string | null {
 
 export function WizardShell({ open, onClose }: WizardShellProps) {
   const {
+    state,
     currentStep,
     progressPercent,
     canGoBack,
     goNext,
     goBack,
     reset,
+    setListingIntent,
     isAddingPsaCard,
     setIsAddingPsaCard,
   } = useWizard();
 
   const ctaLabel = isAddingPsaCard ? null : getCtaLabel(currentStep);
+  const isListingStep = currentStep === "listing-intent";
+  const hasAuctionSelected =
+    state.listingIntent === "weekly-auction" ||
+    state.listingIntent === "premier-auction";
 
   function handleClose() {
     reset();
@@ -123,6 +129,11 @@ export function WizardShell({ open, onClose }: WizardShellProps) {
     } else {
       goNext();
     }
+  }
+
+  function handleSkipListing() {
+    setListingIntent("vault");
+    goNext();
   }
 
   function handleBack() {
@@ -170,12 +181,23 @@ export function WizardShell({ open, onClose }: WizardShellProps) {
 
         {ctaLabel && (
           <SidePanelFooter>
-            <button
-              onClick={handleCta}
-              className="flex w-full items-center justify-center rounded-full bg-[var(--ds1-main-bg-fill)] px-8 py-4 text-base font-bold text-[var(--ds1-main-text-primary-inverse)] transition-colors hover:bg-[var(--ds1-main-bg-fill-hover)]"
-            >
-              {ctaLabel}
-            </button>
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={handleCta}
+                disabled={isListingStep && !hasAuctionSelected}
+                className="flex w-full items-center justify-center rounded-full bg-[var(--ds1-main-bg-fill)] px-8 py-4 text-base font-bold text-[var(--ds1-main-text-primary-inverse)] transition-colors hover:bg-[var(--ds1-main-bg-fill-hover)] disabled:bg-[var(--ds1-main-bg-fill-disabled)] disabled:text-[var(--ds1-main-text-disabled)]"
+              >
+                {ctaLabel}
+              </button>
+              {isListingStep && (
+                <button
+                  onClick={handleSkipListing}
+                  className="flex w-full items-center justify-center rounded-full border-2 border-[var(--ds1-main-border-primary)] px-8 py-4 text-base font-bold transition-colors hover:bg-[var(--ds1-main-bg-fill-alpha)]"
+                >
+                  Skip for now
+                </button>
+              )}
+            </div>
           </SidePanelFooter>
         )}
       </SidePanelContent>

@@ -9,9 +9,14 @@ export function ListingIntentStep() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h3 className="text-lg font-bold leading-6">
-        What would you like to happen next?
-      </h3>
+      <div className="flex flex-col gap-1.5">
+        <h3 className="text-lg font-bold leading-6">
+          Would you like to sell your items?
+        </h3>
+        <p className="text-sm leading-5 text-[var(--ds1-main-text-secondary)]">
+          All items are stored in your Vault. You can list them for sale now, or anytime later from your collection.
+        </p>
+      </div>
 
       <div className="flex flex-col gap-3">
         {LISTING_OPTIONS.map((opt) => {
