@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-
+import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useWizard } from "@/components/wizard/wizard-context";
 import { ITEM_CATEGORIES } from "@/lib/submission-types";
@@ -79,11 +79,13 @@ const ELIGIBILITY_INFO: Record<string, React.ReactNode> = {
     </div>
   ),
   "large-items": (
-    <div className="flex flex-col gap-2 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-3 text-xs">
-      <span className="text-xs text-[var(--ds1-main-text-secondary)]">Accepted authenticators</span>
-      <div className="flex flex-col gap-1.5">
-        <EligibilityItem label="Wax cases:" detail="BBCE, factory sealed sports cases" />
-        <EligibilityItem label="Memorabilia:" detail="MeiGray, Resolution, Davious, RGU, Fanatics Authentic, or any other reputable third party authenticators" />
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 rounded-lg bg-[var(--ds1-main-bg-layer-2)] p-3 text-xs">
+        <span className="text-xs text-[var(--ds1-main-text-secondary)]">Accepted authenticators</span>
+        <div className="flex flex-col gap-1.5">
+          <EligibilityItem label="Wax cases:" detail="BBCE, factory sealed sports cases" />
+          <EligibilityItem label="Memorabilia:" detail="MeiGray, Resolution, Davious, RGU, Fanatics Authentic and more" />
+        </div>
       </div>
     </div>
   ),
