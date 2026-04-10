@@ -78,7 +78,7 @@ export function GraderStep() {
                       <div className="flex flex-col gap-0">
                       {grader.tagline && (
                         <span className="text-xs leading-4 text-[var(--ds1-main-text-secondary)]">
-                          {grader.tagline} From <span className="font-bold text-[var(--ds1-main-text-primary)]">{grader.startingPrice}/card</span>
+                          {grader.tagline} From <span className="font-bold text-[var(--ds1-main-text-primary)]">{grader.startingPrice}</span>/card
                         </span>
                       )}
                       </div>
@@ -107,7 +107,7 @@ export function GraderStep() {
                               <span className="text-[10px] tracking-wide text-[var(--ds1-main-text-secondary)]">Service</span>
                             </div>
                             <div className="flex items-baseline gap-2 shrink-0 text-right">
-                              <span className="w-[6rem] text-[10px] tracking-wide text-[var(--ds1-main-text-secondary)] whitespace-nowrap text-right">Card value</span>
+                              <span className="w-[6rem] text-[10px] tracking-wide text-[var(--ds1-main-text-secondary)] whitespace-nowrap text-right">Per card value</span>
                               <span className="w-[4rem] text-[10px] tracking-wide text-[var(--ds1-main-text-secondary)] whitespace-nowrap text-right">Turnaround</span>
                               <span className="w-[5rem] text-[10px] tracking-wide text-[var(--ds1-main-text-secondary)] whitespace-nowrap text-right">Fee per card</span>
                             </div>

@@ -65,14 +65,14 @@ export function CardConditionStep() {
         <ConditionCard
           selected={state.cardCondition === "graded"}
           onSelect={() => setCardCondition("graded")}
-          label="Already authenticated"
-          description="Graded or certified by PSA, CGC, Beckett, or SGC"
+          label="Authenticated"
+          description="Cards certified by PSA, CGC, Beckett, or SGC"
         />
         <ConditionCard
           selected={state.cardCondition === "raw"}
           onSelect={() => setCardCondition("raw")}
           label="Raw"
-          description="Ungraded cards that need authentication"
+          description="Cards that need authentication"
         />
       </div>
     </div>
